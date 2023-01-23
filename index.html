@@ -35,7 +35,7 @@ input[type=submit] {
 }
 
 .copy-link-container {
-  width: 500px;
+  width: 50%;
 }
 
 .copy-link-container:not(:first-of-type) {
@@ -113,7 +113,7 @@ input[type=submit] {
             document.execCommand("copy");
           });
         }
-        
+
         // Select all text when pressing inside text field
         var els_selectAll = document.querySelectorAll("[data-click-select-all]");
         for (var i = 0; i < els_selectAll.length; i++) {
