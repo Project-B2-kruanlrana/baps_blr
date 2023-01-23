@@ -5,8 +5,127 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BAPS BLR | DESIGNs </title>
+    <style>
+        * {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+input[type=text] {
+  border: 0;
+  background-color: transparent;
+  color: #fff;
+  font-size: .9em;
+  padding: 0.4em;
+  width: 80%;
+}
+
+input[type=submit] {
+  background-color: #1D99CE;
+  border: 0;
+  border-radius: 4px;
+  color: #fff;
+  float: right;
+  padding: 0.5em;
+  text-transform: uppercase;
+  width: 4.5em;
+}
+
+.copy-link-container {
+  width: 500px;
+}
+
+.copy-link-container:not(:first-of-type) {
+  margin-top: 1em;
+}
+
+.copy-link {
+  background-color: #1C7EAD;
+  border-radius: 0 0 6px 6px;
+  color: #fff;
+  padding: .8em;
+  overflow: hidden;
+}
+
+.copy-link-icon {
+  position: relative;
+  left: 15px;
+  top: 11px;
+}
+
+.copy-link-inner {
+  background-color: #0E4257;
+  border: 0;
+  border-radius: 5px;
+  padding: 0.5em;
+  float: right;
+  width: 80%;
+}
+
+.copy-header {
+  background-color: #1F5571;
+  border-radius: 6px 6px 0 0;
+  height: 30px;
+}
+    </style>
 </head>
 <body>
     <h1>UPDATE SOON </h1>
+    <!-- Image ref: https://www.smashingmagazine.com/2017/05/why-no-framework/ -->
+
+<div class="copy-link-container">
+    <div class="copy-header"></div>
+    <div class="copy-link">
+      <span class="copy-link-icon">icon</span>
+      <div class="copy-link-inner">
+        <form data-copy=true>
+          <input type="text" value="somascope.com/flexbox/" data-click-select-all />
+          <input type="submit" value="Copy" />
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <div class="copy-link-container">
+    <div class="copy-header"></div>
+    <div class="copy-link">
+      <span class="copy-link-icon">icon</span>
+      <div class="copy-link-inner">
+        <form data-copy=true>
+          <input type="text" value="somascope.com/resources/" data-click-select-all />
+          <input type="submit" value="Copy" />
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Select on pressing COPY
+var els_copy = document.querySelectorAll("[data-copy]");
+for (var i = 0; i < els_copy.length; i++) {
+  var el = els_copy[i];
+  el.addEventListener("submit", function(e) {
+    e.preventDefault();
+    var text = e.target.querySelector('input[type="text"]').select();
+    document.execCommand("copy");
+  });
+}
+
+// Select all text when pressing inside text field
+var els_selectAll = document.querySelectorAll("[data-click-select-all]");
+for (var i = 0; i < els_selectAll.length; i++) {
+  var el = els_selectAll[i];
+  el.addEventListener("click", function(e) {
+    e.target.select();
+  });
+}
+
+  </script>
+
+
+
 </body>
 </html>
