@@ -4,18 +4,172 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@600&display=swap');
+        
+        :root {
+                --font: 'Merriweather', serif;
+                --disc_font: 'Merriweather Sans', sans-serif;
+            }
+        
+        body {
+            margin: auto;
+        }
 
-    <!-- scripts for html to jpg convter  -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+        /* Container holding the image and the text */
+        .container {
+            position: relative;
+            text-align: center;
+            color: #963220;
+            /* font-size: 190%; */
+            height: 1980px;
+            width: 1080px;
+            background-color: rgb(26, 7, 132);
+            margin:0px;
+            padding: 0px;
+        }
+        img{
+            width: 100%;
+            height: 100%;
+        }
+        
+        .name {
+            position: absolute;
+            width: 100%;
+            top: 610px;
+            left: 540px;
+            transform: translate(-50%, -50%);
+            font-size: 50px;
+            text-align: center;
+            word-wrap: normal;
+            font-family: var(--font);
+        }
 
+        .greet{
+            position: absolute;
+            width: 100%;
+            top: 680px;
+            left: 50%;
+            font-size: 45px;
+            transform: translate(-50%, -50%);
+            font-family: var(--font);
 
-    <title> DES | BAPS BLR </title>
+        }
+
+        .disc{
+            position: absolute;
+            top: 1120px;
+            width: 100%;
+            left: 50%;
+            font-size: 38px;
+            transform: translate(-50%, -50%);
+            font-family: var(--disc_font);
+        }
+        
+        #disc{
+            padding: 14px 10px 10px 10px;
+            margin: 25px;
+                }
+
+        .slock{
+            position: absolute;
+        }
+
+        .enclosure{
+            position: absolute;
+            top: 1820px;
+            width: 100%;
+            left: 50%;
+            font-size: 38px;
+            transform: translate(-50%, -50%);
+            font-family: var(--disc_font);
+        }
+    </style>
+    <script src="html2canvas.js"></script>
 </head>
 <body>
-    <h1>PREVIEW & DOWNLOD HERE </h1>
+    <center>
+        <!-- <canvas id=""> -->
+        <div class="container" id="capture">
+            <img src="bg_main.jpg" alt="Snow" style="width:100%;">
+            
+            <div class="name" id="person_name">
+                <p>Dear Shri,<span id="name"> Kishorbhai Vasrani & Family </span></p>
+            </div>
+            <div class="greet">
+                Jay Swaminarayan
+            </div>
+            <div class="disc"><p id="disc">
+                Let Parabrahma Purna Purushottam Bhagwan <br>
+                Shri Swaminarayan and Pragat Guruhari <br>
+                H.H. Mahantswami Maharaj bestow their Blessings<br>
+                on you and your family for ever.<br>
+                We convey our best wishes on your birthday <br>
+                and pray for your good<br>
+                health, wealth and prosperity<br>
+                in new year starting today. We pray for progress in<br>
+                all your endeavours so that you can do seva<br>
+                physically, mentally and monetarily of BAPS Sanstha.<br>
+                Remembering you and your family, we have<br>
+                performed Abhishek to Mahaprabhu Shri<br>
+                Nilkanthvarni Maharaj for fulfilling your<br>
+                good wishes.</p>
+            </div>
+            <div class="slock">
 
+            </div>
+            <div class="enclosure">
+                With Prayers and Jay Shri Swaminarayan <br>
+                Youurs Sincerely,<br>
+                Sadhu Saraljivandas and <br>
+                Sadhu Bhaktivedantdas
+            </div>            
+        </div><br>
 
-    
+        <button type="button" onClick="generate()">Generate</button>
+  
+        <a id="download" download="poster.png">
+            <button type="button" onClick="download()">Download</button>
+        </a>
+
+        <div id="render" style="margin: 0px; padding: 0px;">
+            <h1>Render</h1>
+        </div>
+
+    </div>
+    <!-- </canvas> -->
+    </center>
+    <script>
+        function generate() {
+        document.getElementById("render").innerHTML = "";
+        html2canvas(document.querySelector("#capture")).then(canvas => {
+        document.getElementById("render").appendChild(canvas);
+            });
+        }
+
+        function download() {
+        const download = document.getElementById("download");
+        let image = document.querySelector("canvas").toDataURL("image/png")
+                        .replace("image/png", "image/octet-stream");
+        download.setAttribute("href", image);
+        }
+
+        // document.querySelector("textarea").addEventListener('keyup', function(){
+        // const quoteText = document.getElementById("quote__text");
+
+        // if(this.value != ""){
+        //         quoteText.innerHTML = this.value;
+        //         renderCanvas();
+        //     }
+        // else {
+            // quoteText.innerHTML = ""
+        // }
+        // renderCanvas();
+
+            
+
+    </script>
 </body>
 </html>
