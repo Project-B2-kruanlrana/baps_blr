@@ -95,8 +95,12 @@
     <script>
         var svgContainer = d3.select("#poster-container");
         var textInput;
-
         function createPoster(name) {
+            surname= "પટેલ" 
+
+            var longText ="પ.ભ."+name
+            var longText2=" તથા સમસ્ત "+surname+" પરિવારને"
+            var longText3=" સસ્નેહપુર્વકના જય શ્રી સ્વામિનારાયણ"
             var posterWidth = 1081;
             var posterHeight = 1920;
 
@@ -110,19 +114,27 @@
                 .attr("width", posterWidth)
                 .attr("height", posterHeight);
 
-            // Add the text on top of the image
             svg.append("text")
-                .attr("x", posterWidth / 2)
-                .attr("y", posterHeight / 2)
+                .attr("x", "50%") 
+                .attr("y", "31%")
                 .attr("text-anchor", "middle")
                 .attr("alignment-baseline", "middle")
-                .attr("fill", "#0d1117")
-                .attr("font-size", "100")
-                .text(name);
-
-            textInput = name;
+                .attr("fill", "#63251a")
+                .attr("font-size", "20")
+                .attr("font-weight", "800") 
+                .text(longText)
+                .append("tspan")
+                .attr("x", "50%")
+                .attr("dy", "1.5em")
+                .text(longText2)
+                .append("tspan")
+                .attr("x", "50%")
+                .attr("dy", "1.5em")
+                .text(longText3);
+                
+                textInput = longText+longText2+longText3;
         }
-
+    
         function openModal(name) {
             createPoster(name);
             $('#myModal').modal('show');
