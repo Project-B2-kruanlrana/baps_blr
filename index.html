@@ -106,9 +106,16 @@
         var svgContainer = d3.select("#poster-container");
         var textInput;
         function createPoster(name,surname) {
+            var finalsurname=""
+            // Check if surname is defined and not empty
+            if (surname) {
+             finalsurname = "તથા સમસ્ત " + surname + " પરિવારને";
+            } else {
+             finalsurname = "તથા સમસ્ત  પરિવારને";
+            }
 
             var longText ="પ.ભ."+name
-            var longText2=" તથા સમસ્ત "+surname+" પરિવારને"
+            var longText2=" તથા સમસ્ત "+finalsurname+" પરિવારને"
             var longText3=" સસ્નેહપુર્વકના જય શ્રી સ્વામિનારાયણ"
             var posterWidth = 1081;
             var posterHeight = 1920;
