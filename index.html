@@ -197,6 +197,63 @@
                 });
         }
     </script>
+
+    
+    <!-- Your app's content goes here -->
+    <h1>Welcome to Your PWA</h1>
+
+    <!-- Add the install button -->
+    <button id="installButton" style="display: none;">Install App</button>
+
+    <!-- Add your other HTML elements here -->
+
+    <script>
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (event) => {
+          // Prevent the default browser prompt
+          event.preventDefault();
+
+          // Store the event for later use
+          deferredPrompt = event;
+
+          // Show the custom install button
+          const installButton = document.getElementById('installButton');
+          installButton.style.display = 'block';
+        });
+
+        const installButton = document.getElementById('installButton');
+        installButton.addEventListener('click', () => {
+          if (deferredPrompt) {
+            // Show the installation prompt
+            deferredPrompt.prompt();
+
+            // Wait for the user to respond to the prompt
+            deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the installation');
+              } else {
+                console.log('User dismissed the installation');
+              }
+
+              // Reset the deferredPrompt variable to prevent multiple prompts
+              deferredPrompt = null;
+            });
+          }
+        });
+
+        window.addEventListener('appinstalled', () => {
+          // Hide the install button after installation
+          installButton.style.display = 'none';
+        });
+    </script>
+
+
+
+
+
+
+    
 <!--     adding Register the service worker: To enable caching and offline functionality, you need to register a service worker. Add the following script at the end of your <body> tag in your HTML file:  -->
     <script>
   if ('serviceWorker' in navigator) {
