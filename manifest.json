@@ -1,0 +1,20 @@
+{
+  "name": "Baps BLR | DAILY POSTER",
+  "short_name": "Baps BLR",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#63251a",
+  "icons": [
+    {
+      "src": "path-to-your-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "path-to-your-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
