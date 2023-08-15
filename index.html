@@ -8,183 +8,231 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Akshar:wght@500&family=Noto+Serif+Gujarati:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@700&display=swap');
-    .poster-background {
-        background-image: url('Self1.png');
-        background-size: cover;
-      }
-      body {
-        font-family: 'Noto Sans Gujarati', sans-serif;
-    }
-    .modal {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .modal-dialog {
-        width: 500px; /* Adjust the width as per your preference */
-        height: 400px; /* Adjust the height as per your preference */
-    }
-    .modal-body {
-        padding: 20px;
-    }
-    #poster-container {
-        width: 100%;
-        height: 100%;
-    }
-    #poster-container svg {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@700&display=swap');
+        .poster-background {
+            background-image: url('Self1.png');
+            background-size: cover;
+          }
+          body {
+            font-family: 'Noto Sans Gujarati', sans-serif;
+        }
+        .modal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-dialog {
+            width: 500px; /* Adjust the width as per your preference */
+            height: 400px; /* Adjust the height as per your preference */
+        }
+        .modal-body {
+            padding: 20px;
+        }
+        #poster-container {
+            width: 100%;
+            height: 100%;
+        }
+        #poster-container svg {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
 
-    .hello-krunal {
-      background-color: #ffffff;
-      border: 1px solid #000000;
-      padding: 10px;
-      text-align: center;
-    }
-    .hello-krunal h1 {
-      font-size: 20px;
-    }
+        .hello-krunal {
+          background-color: #ffffff;
+          border: 1px solid #000000;
+          padding: 10px;
+          text-align: center;
+        }
+        .hello-krunal h1 {
+          font-size: 20px;
+        }
+
+        .poster-item{
+          margin: 15px;
+          margin-top: 20px;
+        }
+        .card-header{
+          font-style: normal;
+          font-weight: 700;
+        }
+
+        .card-title{
+          margin-bottom: 8px;
+        }
+        .navbar-brand{
+          font-weight: 700;
+        }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-
 </head>
 <body>
-    <div class="hello-krunal">
-        <h1>Hello, Krunal!</h1>
+      <nav class="navbar navbar-light " style="background-color: #fffcee; padding:15px;">
+        <a class="navbar-brand" href="#">
+          <img src="innserlogo512x512.png" width="30" height="30" class="d-inline-block align-top" alt="">
+          Pujya Sarljivan Swami
+        </a>
+      </nav>
+      <script>
+                function fetchJsonData() {
+            return fetch('./JSON/auglist.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    throw error; // Rethrow the error to handle it at the caller's level
+                });
+        }
+
+        fetchJsonData()
+            .then(jsonData => {
+                console.log(jsonData); // This will log the entire JSON data
+
+                if (jsonData.data && Array.isArray(jsonData.data)) {
+                    // console.log(jsonData.data[2]); // Log the third element
+                    const container = document.getElementById('appenddiv');
+                    onlyonce=1
+                    for (var i = 0; i < jsonData.data.length; i++) {
+                      const currentDate = new Date();
+                      const day = currentDate.getDate().toString().padStart(2, '0');
+                      const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+                      const year = currentDate.getFullYear();
+                      const formattedDate = `${day}/${month}/${year}`;
+                      const givenDateParts = jsonData.data[i].birthdate.split('-');
+
+                      
+
+
+                      if (formattedDate == givenDateParts[0]) {
+                          // console.log("The given date is in the past or today.");
+                          // console.log(jsonData.data[i]);
+                          if(onlyonce){
+                              document.getElementById("todaydate").innerHTML =givenDateParts;
+                              onlyonce=onlyonce-1
+                          }
+                          posterItem=createPosterItem(jsonData.data[i].name_guj,"Download Wish Poster",jsonData.data[i].name_guj.split(" ")[1],jsonData.data[i].area)
+                          container.appendChild(posterItem);
+                      } else {
+                          console.log(jsonData.data[i].birthdate);
+                      }
+                    }
+                } else {
+                    console.error('Invalid JSON data format');
+                }
+            })
+            .catch(error => {
+                // Handle the error at a higher level if needed
+            });
+
+            function createPosterItem(title, buttonText, modalContent,area) {
+              console.log(title, buttonText, modalContent)
+                const div = document.createElement('div');
+                div.className = 'card poster-item';
+                
+                const h1 = document.createElement('h5');
+                h1.className = 'card-header';
+                h1.textContent = title;
+
+                const carddiv = document.createElement('div');
+                carddiv.className = 'card-body';
+                
+                // <h5 class="card-title">Special title treatment</h5>
+                const h5 = document.createElement('h5');
+                h5.className = 'card-title';
+                h5.textContent = area;
+
+                const button = document.createElement('button');
+                button.className = 'btn btn-primary';
+                button.textContent = buttonText;
+                button.addEventListener('click', () => openModal(title, modalContent));
+                
+                carddiv.appendChild(h5);
+                carddiv.appendChild(button);
+                div.appendChild(h1);
+                div.appendChild(carddiv);
+            return div;
+        }
+      </script>
+      <!-- Multiple divs to display posters -->
+      <div id="mobilebodydiv" style="padding: 20px;">
+        <nav class="navbar navbar-light bg-light">
+          <div>
+            <span>Birthday Wish List</span>
+            <span>Date: <span id="todaydate"> </span></span>
+          </div>
+        </nav>
+        
+        <div id="appenddiv">
+
+        </div>
+      <!-- <div class="card poster-item">
+        <h5 class="card-header">Featured</h5>
+        <div class="card-body">
+          <h5 class="card-title">Special title treatment</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div> -->
+      <!-- <div class="poster-item">
+          <h1>નીરંજન વાસ </h1>
+          <button class="btn btn-primary" onclick="openModal('નીરંજન વાસ','વાસ')">Open Modal</button>
       </div>
 
-      <script>
-        function fetchJsonData() {
-    return fetch('./JSON/auglist.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            throw error; // Rethrow the error to handle it at the caller's level
-        });
-}
+      <div class="poster-item">
+          <h1>કુનાલભાઈ જૈન</h1>
+          <button class="btn btn-primary" onclick="openModal('કુનાલભાઈ જૈન','જૈન')">Open Modal</button>
+      </div>
 
-fetchJsonData()
-    .then(jsonData => {
-        console.log(jsonData); // This will log the entire JSON data
+      <div class="poster-item">
+          <h1>દીપરામજી </h1>
+          <button class="btn btn-primary" onclick="openModal('દીપરામજી ',' ')">Open Modal</button>
+      </div>
+      <div class="poster-item">
+          <h1>મૌલિકભાઈ પૂજાર</h1>
+          <button class="btn btn-primary" onclick="openModal('મૌલિકભાઈ પૂજાર','પૂજાર')">Open Modal</button>
+      </div> -->
+      <!-- Modal -->
+      <div id="myModal" class="modal" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title">Poster</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <div id="poster-container">
+                          <!-- The SVG content will be generated here -->
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button class="btn btn-primary" onclick="exportToPNG()">Export as PNG</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+              </div>
+          </div>
+      </div>
 
-        if (jsonData.data && Array.isArray(jsonData.data)) {
-            // console.log(jsonData.data[2]); // Log the third element
-            const container = document.getElementById('appenddiv');
-
-            for (var i = 0; i < jsonData.data.length; i++) {
-              const currentDate = new Date();
-              const day = currentDate.getDate().toString().padStart(2, '0');
-              const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-              const year = currentDate.getFullYear();
-              const formattedDate = `${day}/${month}/${year}`;
-              const givenDateParts = jsonData.data[i].birthdate.split('-');
-              if (formattedDate == givenDateParts[0]) {
-                  // console.log("The given date is in the past or today.");
-                  // console.log(jsonData.data[i]);
-                  posterItem=createPosterItem(jsonData.data[i].name_guj,"Open Modal",'')
-                  container.appendChild(posterItem);
-              } else {
-                  console.log(jsonData.data[i].birthdate);
-              }
-            }
-        } else {
-            console.error('Invalid JSON data format');
-        }
-    })
-    .catch(error => {
-        // Handle the error at a higher level if needed
-    });
-
-    function createPosterItem(title, buttonText, modalContent) {
-        const div = document.createElement('div');
-        div.className = 'poster-item';
-        
-        const h1 = document.createElement('h1');
-        h1.textContent = title;
-        
-        const button = document.createElement('button');
-        button.className = 'btn btn-primary';
-        button.textContent = buttonText;
-        button.addEventListener('click', () => openModal(title, modalContent));
-        
-        div.appendChild(h1);
-        div.appendChild(button);
-    return div;
-}
-
-        
-      </script>
     
-
-    <!-- Multiple divs to display posters -->
-    <div id="appenddiv">
-
-    </div>
-    <!-- <div class="poster-item">
-        <h1>નીરંજન વાસ </h1>
-        <button class="btn btn-primary" onclick="openModal('નીરંજન વાસ','વાસ')">Open Modal</button>
-    </div>
-
-    <div class="poster-item">
-        <h1>કુનાલભાઈ જૈન</h1>
-        <button class="btn btn-primary" onclick="openModal('કુનાલભાઈ જૈન','જૈન')">Open Modal</button>
-    </div>
-
-     <div class="poster-item">
-        <h1>દીપરામજી </h1>
-        <button class="btn btn-primary" onclick="openModal('દીપરામજી ',' ')">Open Modal</button>
-    </div>
-     <div class="poster-item">
-        <h1>મૌલિકભાઈ પૂજાર</h1>
-        <button class="btn btn-primary" onclick="openModal('મૌલિકભાઈ પૂજાર','પૂજાર')">Open Modal</button>
-    </div> -->
-    
-
-    <!-- Modal -->
-    <div id="myModal" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Poster</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="poster-container">
-                        <!-- The SVG content will be generated here -->
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" onclick="exportToPNG()">Export as PNG</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <style>
         .send-button {
-  text-decoration:none;
-  display:inline-block;
-  background:#25d366;
-  padding:8px 12px;
-  color:#fff;
-  font-weight:bold;
-  text-transform:uppercase;
-  letter-spacing:0.5px;
-  border-radius:9999px;
-}
+            text-decoration:none;
+            display:inline-block;
+            background:#25d366;
+            padding:8px 12px;
+            color:#fff;
+            font-weight:bold;
+            text-transform:uppercase;
+            letter-spacing:0.5px;
+            border-radius:9999px;
+          }
     </style>
-    <a class='send-button' href='whatsapp://send?phone=919824085934&text=SUB'>Send Message</a>
+    <!-- <a class='send-button' href='whatsapp://send?phone=919824085934&text=SUB'>Send Message</a> -->
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
@@ -270,13 +318,10 @@ fetchJsonData()
 
     
     <!-- Your app's content goes here -->
-    <h1>Welcome to Your PWA</h1>
-
+    <!-- <h1>Welcome to Your PWA</h1> -->
     <!-- Add the install button -->
-    <button id="installButton" style="display: none;">Install App</button>
 
-    <!-- Add your other HTML elements here -->
-
+    <button id="installButton" style="display: none;">Install Mobile App  App</button>
     <script>
         let deferredPrompt;
 
@@ -318,27 +363,24 @@ fetchJsonData()
         });
     </script>
 
-
-
-
-
-
-    
 <!--     adding Register the service worker: To enable caching and offline functionality, you need to register a service worker. Add the following script at the end of your <body> tag in your HTML file:  -->
     <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('service-worker.js')
-          
-        .then(registration => {
-          console.log('Service Worker registered with scope:', registration.scope);
-        })
-        .catch(error => {
-          console.error('Service Worker registration failed:', error);
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('service-worker.js')
+              
+            .then(registration => {
+              console.log('Service Worker registered with scope:', registration.scope);
+            })
+            .catch(error => {
+              console.error('Service Worker registration failed:', error);
+            });
         });
-    });
-  }
-</script>
+      }
+  </script>
+
+  </div>
+  <!-- mobiel body div finish add fotter here  -->
 
 </body>
 </html>
