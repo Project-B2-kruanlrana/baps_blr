@@ -171,5 +171,37 @@
             
 
     </script>
+
+    <script>
+        // apitest
+        function augmonthjson(){
+                var pastdata;
+                fetch("/enrollementcoursesattemptsdata/", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    pastdata = data;
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+                return pastdata;
+                        // $.ajax({
+                        //     type: "GET",
+                        //     dataType: "json",
+                        //     async: false,
+                        //     url: "/enrollementcoursesattemptsdata/",
+                        //     contentType: "application/json; charset=utf-8",
+                        //     success: function (msg) {
+                        //         pastdata = msg;
+                        //     }
+                        // });
+        }
+        console.log(augmonthjson());
+    </script>
 </body>
 </html>
