@@ -4,64 +4,41 @@
     <title>Baps BLR | DAILY POSTER</title>
     <script src="service-worker.js"></script>
     <link rel="manifest" href="manifest.json">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Akshar:wght@500&family=Noto+Serif+Gujarati:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-    /* @font-face {
-        font-family: '';
-        src: url();
-    } */
-    /* <style> */
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@700&display=swap');
-
     .poster-background {
         background-image: url('Self1.png');
-        background-size: cover; /* or contain, depending on how you want the image to be scaled */
-        /* Add any other background properties you want, e.g., background-repeat, background-position, etc. */
+        background-size: cover;
       }
       body {
-        /* font-family: 'Akshar', sans-serif;
-        font-family: 'Noto Sans Gujarati', sans-serif; */
         font-family: 'Noto Sans Gujarati', sans-serif;
-
-        /* font-family: 'Akshar', sans-serif; */
-      /* font-family: 'Noto Sans Gujarati', sans-serif; */
+    }
+    .modal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .modal-dialog {
+        width: 500px; /* Adjust the width as per your preference */
+        height: 400px; /* Adjust the height as per your preference */
+    }
+    .modal-body {
+        padding: 20px;
+    }
+    #poster-container {
+        width: 100%;
+        height: 100%;
+    }
+    #poster-container svg {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
     }
 
- /* Center the modal vertically and horizontally */
-.modal {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Set fixed dimensions for the modal */
-.modal-dialog {
-    width: 500px; /* Adjust the width as per your preference */
-    height: 400px; /* Adjust the height as per your preference */
-}
-
-/* Style the modal body content */
-.modal-body {
-    padding: 20px;
-}
-
-/* Style the poster container to make it fit inside the modal */
-#poster-container {
-    width: 100%;
-    height: 100%;
-}
-
-/* Style the SVG to cover the entire container while maintaining aspect ratio */
-#poster-container svg {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-        .hello-krunal {
+    .hello-krunal {
       background-color: #ffffff;
       border: 1px solid #000000;
       padding: 10px;
@@ -70,23 +47,89 @@
     .hello-krunal h1 {
       font-size: 20px;
     }
-
-
-
     </style>
-    
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@400;700&display=swap" rel="stylesheet"> -->
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
 </head>
 <body>
     <div class="hello-krunal">
         <h1>Hello, Krunal!</h1>
       </div>
+
+      <script>
+        function fetchJsonData() {
+    return fetch('./JSON/auglist.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            throw error; // Rethrow the error to handle it at the caller's level
+        });
+}
+
+fetchJsonData()
+    .then(jsonData => {
+        console.log(jsonData); // This will log the entire JSON data
+
+        if (jsonData.data && Array.isArray(jsonData.data)) {
+            // console.log(jsonData.data[2]); // Log the third element
+            const container = document.getElementById('appenddiv');
+
+            for (var i = 0; i < jsonData.data.length; i++) {
+              const currentDate = new Date();
+              const day = currentDate.getDate().toString().padStart(2, '0');
+              const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+              const year = currentDate.getFullYear();
+              const formattedDate = `${day}/${month}/${year}`;
+              const givenDateParts = jsonData.data[i].birthdate.split('-');
+              if (formattedDate == givenDateParts[0]) {
+                  // console.log("The given date is in the past or today.");
+                  // console.log(jsonData.data[i]);
+                  posterItem=createPosterItem(jsonData.data[i].name_guj,"Open Modal",'')
+                  container.appendChild(posterItem);
+              } else {
+                  console.log(jsonData.data[i].birthdate);
+              }
+            }
+        } else {
+            console.error('Invalid JSON data format');
+        }
+    })
+    .catch(error => {
+        // Handle the error at a higher level if needed
+    });
+
+    function createPosterItem(title, buttonText, modalContent) {
+        const div = document.createElement('div');
+        div.className = 'poster-item';
+        
+        const h1 = document.createElement('h1');
+        h1.textContent = title;
+        
+        const button = document.createElement('button');
+        button.className = 'btn btn-primary';
+        button.textContent = buttonText;
+        button.addEventListener('click', () => openModal(title, modalContent));
+        
+        div.appendChild(h1);
+        div.appendChild(button);
+    return div;
+}
+
+        
+      </script>
     
 
     <!-- Multiple divs to display posters -->
-    <div class="poster-item">
+    <div id="appenddiv">
+
+    </div>
+    <!-- <div class="poster-item">
         <h1>નીરંજન વાસ </h1>
         <button class="btn btn-primary" onclick="openModal('નીરંજન વાસ','વાસ')">Open Modal</button>
     </div>
@@ -103,7 +146,7 @@
      <div class="poster-item">
         <h1>મૌલિકભાઈ પૂજાર</h1>
         <button class="btn btn-primary" onclick="openModal('મૌલિકભાઈ પૂજાર','પૂજાર')">Open Modal</button>
-    </div>
+    </div> -->
     
 
     <!-- Modal -->
