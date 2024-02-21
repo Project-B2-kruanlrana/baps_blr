@@ -101,9 +101,11 @@
                       const day = currentDate.getDate().toString().padStart(2, '0');
                       const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
                       const year = currentDate.getFullYear();
-                      const formattedDate = `${day}/${month}/${year}`;
-                      // const givenDateParts = jsonData.data[i].birthdate.split('-');
-                      const givenDateParts = "01/08/2023" ;
+                      // const formattedDate = `${day}/${month}/${year}`;
+                      const formattedDate = `01/08/2023`;
+                      const givenDateParts = jsonData.data[i].birthdate.split('-');
+                    
+                      // const givenDateParts = "01/08/2023" ;
 
                       
 
